@@ -278,15 +278,3 @@ if st.button("Run Simulation"):
         loan_schedule.set_index('Date', inplace=True)
         st.dataframe(loan_schedule.style.format({"Paiement":"{:.2f}", "Interet":"{:.2f}", "Principal":"{:.2f}",
                                                  "Assurance":"{:.2f}", "CRD":"{:.2f}"}))
-
-    st.subheader("Export")
-    dfs_to_export = {
-        "Stratégie": df,
-    }
-    if loan_schedule is not None:
-        dfs_to_export["Prêt"] = loan_schedule
-
-    cols = st.columns(len(dfs_to_export) + 12)
-    for i, k in enumerate(dfs_to_export):
-        with cols[i]:
-            st.download_button(f"{k}", data=df_to_excel_bytes(dfs_to_export[k]), file_name="projection_patrimoine.xlsx")
