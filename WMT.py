@@ -71,11 +71,11 @@ def df_to_excel_bytes(df):
 
 
 st.set_page_config(layout="wide", page_title="Model Patrimonial",
-                   page_icon=r"/Users/ayoub/PycharmProjects/WealthManagementTools/Ressources/icone_patrimoine.png")
+                   page_icon=r"Ressources/icone_patrimoine.png")
 
 cols = st.columns(10)
 with cols[0]:
-    image = Image.open(r"/Users/ayoub/PycharmProjects/WealthManagementTools/Ressources/icone_patrimoine.png")
+    image = Image.open(r"Ressources/icone_patrimoine.png")
     small_image = image.resize((50, 50))
     st.image(image, use_container_width=True)
 
