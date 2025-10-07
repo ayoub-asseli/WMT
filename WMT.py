@@ -115,10 +115,10 @@ with st.expander("Paramètres", expanded=True):
         pea_fees = st.number_input("Frais Annuel PEA (%)", value=0.2, max_value=100., step=0.01) / 100
         pea_cap_total = st.number_input("Capacité totale PEA (€)", value=150_000., step=1.)
     with col4:
-        av_monthly = st.number_input("Versement mensuel AV (€) [⚠️ post-cash-pea]", value=50., max_value=100., step=0.01) / 100
+        av_monthly = st.number_input("Versement mensuel AV (%) [⚠️ post-cash-pea]", value=50., max_value=100., step=0.01) / 100
         av_fees = st.number_input("Frais Annuel AV (%)", value=0.8, max_value=100., step=0.01) / 100
     with col3:
-        cto_monthly = st.number_input("Versement mensuel CTO (€) [⚠️ post-cash-pea]", value=50., max_value=100., step=0.01) / 100
+        cto_monthly = st.number_input("Versement mensuel CTO (%) [⚠️ post-cash-pea]", value=50., max_value=100., step=0.01) / 100
         cto_fees = st.number_input("Frais Annuel CTO (%)", value=0.2, max_value=100., step=0.01) / 100
     with col1:
         cash_monthly = st.number_input("Versement mensuel Cash (%)", value=50., max_value=100., step=0.01) / 100
