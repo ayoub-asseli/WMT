@@ -255,7 +255,7 @@ if st.button("Run Simulation"):
     col4.metric("CTO", f"{df['CTO'].iloc[-1]:,.0f} €")
     col5.metric("Cash", f"{df['Reserve Cash'].iloc[-1]:,.0f} €")
     if loan_schedule is not None:
-        col6.metric("Real Estate", f"{df['Immobilier'].iloc[-1]:,.0f} €")
+        col6.metric("Immobilier", f"{df['Immobilier'].iloc[-1]:,.0f} €")
     else:
         col6.metric("Apport", f"{df['Immobilier'].iloc[-1]:,.0f} €")
 
