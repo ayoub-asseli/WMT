@@ -249,7 +249,7 @@ if st.button("Run Simulation"):
     df = df[(df.index >= pd.to_datetime(start_date)) & (df.index <= pd.to_datetime(end_date))]
 
     col1, col2, col3, col4, col5, col6 = st.columns(6)
-    col1.metric("Net Worth", f"{df['Patrimoine Net'].iloc[-1]:,.0f} €")
+    col1.metric("Patrimoine Net", f"{df['Patrimoine Net'].iloc[-1]:,.0f} €")
     col2.metric("PEA", f"{df['PEA'].iloc[-1]:,.0f} €")
     col3.metric("AV", f"{df['AV'].iloc[-1]:,.0f} €")
     col4.metric("CTO", f"{df['CTO'].iloc[-1]:,.0f} €")
