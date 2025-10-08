@@ -87,9 +87,9 @@ with st.expander("Paramètres", expanded=True):
     with col1:
         gross1 = st.number_input("Salaire brut annuel - Personne 1 (€)", value=60000, step=1000)
     with col2:
-        gross2 = st.number_input("Salaire brut annuel - Personne 2 (€)", value=38000, step=1000)
+        gross2 = st.number_input("Salaire brut annuel - Personne 2 (€)", value=37000, step=1000)
     with col3:
-        annual_salary_growth = st.number_input("Croissance salariale annuelle (%)", value=5., step=0.01)/100
+        annual_salary_growth = st.number_input("Croissance salariale annuelle (%)", value=1.5, step=0.01)/100
 
     col1, col2 = st.columns(2)
     with col1:
