@@ -124,7 +124,7 @@ with st.expander("Paramètres", expanded=True):
         cash_monthly = st.number_input("Versement mensuel Cash (%)", value=50., max_value=100., step=0.01) / 100
         livretA_rate = st.number_input("Taux Livret A (%)", value=3., step=0.01) / 100
         initial_cash = st.number_input("Cash initial (€)", value=0., step=1000.)
-        livretA_cap_total = st.number_input("Capacité totale Livret A (€)", value=2 * 22950., step=1.)
+        livretA_cap_total = st.number_input("Capacité totale Livret A (€)", value=22950., step=1.)
 
     st.markdown("---")
     st.subheader("Immobilier")
@@ -196,11 +196,11 @@ if st.button("Run Simulation"):
 
         available_cash_cap = max(livretA_cap_total - cash_reserve, 0.0)
         to_cash = min(remainder*cash_monthly, available_cash_cap)
-        cash_reserve = cash_reserve * (1 + mr_cash) + to_cash
+        cash_reserve = cash_reserve * (1 + mr_cash) + to_cash/2
 
         available_pea_cap = max(pea_cap_total - pea, 0.0)
         to_pea = min(remainder*pea_monthly, available_pea_cap)
-        pea = pea * (1 + mr_equity - pea_fees_monthly) + to_pea
+        pea = pea * (1 + mr_equity - pea_fees_monthly) + to_pea/2
 
         if available_cash_cap == 0 and available_pea_cap == 0 and remainder > 0:
             to_cto = remainder * cto_monthly
@@ -234,14 +234,14 @@ if st.button("Run Simulation"):
         prop_owned = 1.0 if loan_active else 0.0
         prop_val = property_price*(1+0.02)**(i/12.0) if prop_owned else property_price
         equity = prop_val - balance_loan if prop_owned else 0.0
-        net_worth = apport + pea + av + cto + equity + cash_reserve
+        net_worth = apport + 2*pea + av + cto + equity + 2*cash_reserve
 
         df.loc[d] = [
             gross_total, net_after_tax, monthly_savings,
-            to_apport, to_pea, to_av, to_cto,
-            apport, pea, av, cto, pea+av+cto,
+            to_apport, to_pea/2, to_av, to_cto,
+            apport, 2*pea, av, cto, 2*pea + av + cto,
             prop_owned, prop_val, balance_loan, payment, equity, net_worth,
-            cash_reserve
+            2*cash_reserve
         ]
 
     st.subheader("Patrimoine du Foyer")
@@ -250,12 +250,12 @@ if st.button("Run Simulation"):
 
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     col1.metric("Patrimoine Net", f"{df['Patrimoine Net'].iloc[-1]:,.0f} €")
-    col2.metric("PEA", f"{df['PEA'].iloc[-1]:,.0f} €")
+    col2.metric("PEA", f"{2*df['PEA'].iloc[-1]:,.0f} €")
     col3.metric("AV", f"{df['AV'].iloc[-1]:,.0f} €")
     col4.metric("CTO", f"{df['CTO'].iloc[-1]:,.0f} €")
-    col5.metric("Cash", f"{df['Reserve Cash'].iloc[-1]:,.0f} €")
+    col5.metric("Cash", f"{2*df['Reserve Cash'].iloc[-1]:,.0f} €")
     if loan_schedule is not None:
-        col6.metric("Immobilier", f"{df['Immobilier'].iloc[-1]:,.0f} €")
+        col6.metric("Real Estate", f"{df['Immobilier'].iloc[-1]:,.0f} €")
     else:
         col6.metric("Apport", f"{df['Immobilier'].iloc[-1]:,.0f} €")
 
@@ -278,3 +278,15 @@ if st.button("Run Simulation"):
         loan_schedule.set_index('Date', inplace=True)
         st.dataframe(loan_schedule.style.format({"Paiement":"{:.2f}", "Interet":"{:.2f}", "Principal":"{:.2f}",
                                                  "Assurance":"{:.2f}", "CRD":"{:.2f}"}))
+
+    st.subheader("Export")
+    dfs_to_export = {
+        "Stratégie": df,
+    }
+    if loan_schedule is not None:
+        dfs_to_export["Prêt"] = loan_schedule
+
+    cols = st.columns(len(dfs_to_export) + 12)
+    for i, k in enumerate(dfs_to_export):
+        with cols[i]:
+            st.download_button(f"{k}", data=df_to_excel_bytes(dfs_to_export[k]), file_name="projection_patrimoine.xlsx")
