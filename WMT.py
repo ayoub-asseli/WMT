@@ -250,10 +250,10 @@ if st.button("Run Simulation"):
 
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     col1.metric("Patrimoine Net", f"{df['Patrimoine Net'].iloc[-1]:,.0f} €")
-    col2.metric("PEA", f"{2*df['PEA'].iloc[-1]:,.0f} €")
+    col2.metric("PEA", f"{df['PEA'].iloc[-1]:,.0f} €")
     col3.metric("AV", f"{df['AV'].iloc[-1]:,.0f} €")
     col4.metric("CTO", f"{df['CTO'].iloc[-1]:,.0f} €")
-    col5.metric("Cash", f"{2*df['Reserve Cash'].iloc[-1]:,.0f} €")
+    col5.metric("Cash", f"{df['Reserve Cash'].iloc[-1]:,.0f} €")
     if loan_schedule is not None:
         col6.metric("Real Estate", f"{df['Immobilier'].iloc[-1]:,.0f} €")
     else:
