@@ -286,7 +286,7 @@ if st.button("Run Simulation"):
     if loan_schedule is not None:
         dfs_to_export["Prêt"] = loan_schedule
 
-    cols = st.columns(len(dfs_to_export) + 12)
+    cols = st.columns(len(dfs_to_export) + 11)
     for i, k in enumerate(dfs_to_export):
         with cols[i]:
             st.download_button(f"{k}", data=df_to_excel_bytes(dfs_to_export[k]), file_name="projection_patrimoine.xlsx")
